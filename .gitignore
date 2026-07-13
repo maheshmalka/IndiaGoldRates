@@ -1,0 +1,22 @@
+## .NET
+bin/
+obj/
+*.user
+*.dev.db
+*.dev.db-*
+
+## Node / frontend
+node_modules/
+dist/
+.vite/
+
+## Editor
+.vs/
+.vscode/
+.idea/
+.DS_Store
+
+## Secrets
+*.local.json
+.env
+.env.*

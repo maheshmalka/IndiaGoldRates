@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/IndiaGoldRates.Api/IndiaGoldRates.Api.csproj" />
+    <Project Path="src/IndiaGoldRates.Core/IndiaGoldRates.Core.csproj" />
+    <Project Path="src/IndiaGoldRates.Infrastructure/IndiaGoldRates.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/IndiaGoldRates.Api.Tests/IndiaGoldRates.Api.Tests.csproj" />
+  </Folder>
+</Solution>
