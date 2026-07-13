@@ -1,0 +1,137 @@
+.dashboard-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dashboard-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.city-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.city-selector select {
+  font: inherit;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-h);
+}
+
+.connection-badge {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.connection-badge--disconnected {
+  background: rgba(220, 60, 60, 0.12);
+  color: #c0392b;
+}
+
+.disclaimer {
+  font-size: 13px;
+  opacity: 0.75;
+  margin: 16px 0;
+  line-height: 1.5;
+}
+
+.rate-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.rate-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.rate-card-label {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.rate-card-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-h);
+}
+
+.rate-card-unit {
+  font-size: 12px;
+  opacity: 0.6;
+  margin-top: 2px;
+}
+
+.last-updated {
+  font-size: 12px;
+  opacity: 0.6;
+  text-align: right;
+  margin: 8px 0 24px;
+}
+
+.history-chart {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.history-chart-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.button-group {
+  display: flex;
+  gap: 4px;
+  background: var(--accent-bg);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.button-group button {
+  border: none;
+  background: transparent;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.button-group button.active {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.history-chart-status {
+  font-size: 13px;
+  opacity: 0.7;
+  padding: 24px 0;
+  text-align: center;
+}

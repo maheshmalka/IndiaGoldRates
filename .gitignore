@@ -16,7 +16,8 @@ dist/
 .idea/
 .DS_Store
 
-## Secrets
+## Secrets — .env.development is intentionally tracked (localhost defaults only, no secrets)
 *.local.json
 .env
-.env.*
+.env.local
+.env.*.local
