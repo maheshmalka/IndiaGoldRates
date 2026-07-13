@@ -15,7 +15,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-const string DevCorsPolicy = "DevCorsPolicy";
+const string FrontendCorsPolicy = "FrontendCorsPolicy";
 
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
@@ -74,7 +74,7 @@ else
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(DevCorsPolicy, policy => policy
+    options.AddPolicy(FrontendCorsPolicy, policy => policy
         .WithOrigins(builder.Configuration["Cors:AllowedOrigin"] ?? "http://localhost:5173")
         .AllowAnyHeader()
         .AllowAnyMethod()
@@ -151,7 +151,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors(DevCorsPolicy);
+app.UseCors(FrontendCorsPolicy);
 app.UseAuthentication();
 app.UseAuthorization();
 

@@ -1,0 +1,59 @@
+name: Deploy backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "tests/**"
+      - "IndiaGoldRates.sln"
+      - ".github/workflows/backend-deploy.yml"
+  workflow_dispatch:
+
+env:
+  AZURE_WEBAPP_NAME: indiagoldrates-prod-api
+  DOTNET_VERSION: "10.0.x"
+  PUBLISH_DIR: ${{ github.workspace }}/publish
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test --no-build --configuration Release
+
+      - name: Publish
+        run: >
+          dotnet publish src/IndiaGoldRates.Api/IndiaGoldRates.Api.csproj
+          --no-build --configuration Release
+          --output ${{ env.PUBLISH_DIR }}
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: ${{ env.PUBLISH_DIR }}
