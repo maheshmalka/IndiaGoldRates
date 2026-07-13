@@ -20,6 +20,9 @@ param environmentName string = 'prod'
 
 param location string = resourceGroup().location
 
+@description('Region for the Static Web App — a subset of regions support this resource type (e.g. centralus, eastus2, westus2, westeurope, eastasia), which may differ from the main location.')
+param staticWebAppLocation string = 'centralus'
+
 @description('Admin login for the Azure SQL logical server.')
 param sqlAdminLogin string
 
@@ -192,7 +195,7 @@ resource apiApp 'Microsoft.Web/sites@2023-12-01' = {
 
 resource staticWebApp 'Microsoft.Web/staticSites@2023-12-01' = {
   name: staticWebAppName
-  location: location
+  location: staticWebAppLocation
   sku: {
     name: 'Free'
     tier: 'Free'
