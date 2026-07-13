@@ -146,22 +146,7 @@ public class NotificationRulesController(AppDbContext db, IRateCache rateCache) 
         return NoContent();
     }
 
-    private decimal? GetCurrentPrice(Metal metal, Purity purity)
-    {
-        var current = rateCache.Current;
-        if (current is null)
-        {
-            return null;
-        }
-
-        return (metal, purity) switch
-        {
-            (Metal.Gold, Purity.TwentyFourK) => current.GoldTwentyFourK.PriceInrPerGram,
-            (Metal.Gold, Purity.TwentyTwoK) => current.GoldTwentyTwoK.PriceInrPerGram,
-            (Metal.Silver, Purity.Pure) => current.Silver.PriceInrPerGram,
-            _ => null
-        };
-    }
+    private decimal? GetCurrentPrice(Metal metal, Purity purity) => rateCache.Current?.GetPrice(metal, purity);
 
     private static bool TryValidate(UpsertNotificationRuleRequest request, out string? error)
     {

@@ -5,6 +5,7 @@ using IndiaGoldRates.Core.Interfaces;
 using IndiaGoldRates.Infrastructure;
 using IndiaGoldRates.Infrastructure.Data;
 using IndiaGoldRates.Infrastructure.ExternalApis;
+using IndiaGoldRates.Infrastructure.Notifications;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,19 @@ builder.Services.AddHttpClient<ICurrencyRateProvider, ExchangeRateApiClient>(cli
 builder.Services.AddSingleton<IRateCache, RateCache>();
 builder.Services.AddSingleton<IRateConversionService, RateConversionService>();
 builder.Services.AddHostedService<RatePollingBackgroundService>();
+builder.Services.AddScoped<INotificationRuleEvaluator, NotificationRuleEvaluator>();
+
+// Falls back to logging the would-be email locally until a real ACS resource is configured
+// (see ConsoleNotificationSender) — lets notification-rule evaluation be exercised end-to-end
+// without needing a live Azure Communication Services connection string yet.
+if (!string.IsNullOrEmpty(builder.Configuration["Acs:ConnectionString"]))
+{
+    builder.Services.AddScoped<INotificationSender, AcsEmailNotificationSender>();
+}
+else
+{
+    builder.Services.AddScoped<INotificationSender, ConsoleNotificationSender>();
+}
 
 builder.Services.AddCors(options =>
 {

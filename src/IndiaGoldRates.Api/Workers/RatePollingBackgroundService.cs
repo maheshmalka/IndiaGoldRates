@@ -89,9 +89,10 @@ public class RatePollingBackgroundService(
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 db.RateSnapshots.AddRange(snapshots);
                 await db.SaveChangesAsync(cancellationToken);
-            }
 
-            // Notification-rule evaluation (digest due-check, threshold crossing) is wired in here during M4.
+                var evaluator = scope.ServiceProvider.GetRequiredService<INotificationRuleEvaluator>();
+                await evaluator.EvaluateAsync(view, capturedAtUtc, cancellationToken);
+            }
 
             await hubContext.Clients.All.SendAsync("RatesUpdated", view, cancellationToken);
             logger.LogInformation(
