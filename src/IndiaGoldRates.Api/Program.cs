@@ -142,7 +142,18 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    // Sqlite (dev) and SqlServer (prod) each need their own migration history — see
+    // Data/Migrations. EnsureCreated keeps the throwaway local dev db in sync with the model
+    // directly, without needing a Sqlite-flavored migration set to maintain in parallel.
+    if (app.Environment.IsDevelopment())
+    {
+        db.Database.EnsureCreated();
+    }
+    else
+    {
+        db.Database.Migrate();
+    }
 }
 
 if (app.Environment.IsDevelopment())
